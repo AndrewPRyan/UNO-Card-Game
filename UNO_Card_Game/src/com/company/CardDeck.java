@@ -23,7 +23,7 @@ public class CardDeck<T> implements ListInterface {
 
     }
 
-    private class Node {
+    public class Node {
 
         T data;
         Node previous;
@@ -294,7 +294,7 @@ public class CardDeck<T> implements ListInterface {
 
         if (givenPosition == 1) {
 
-            System.out.println("Replaced");
+            //System.out.println("Replaced");
             head = newNode;
             return true;
 
@@ -302,7 +302,7 @@ public class CardDeck<T> implements ListInterface {
 
         if (givenPosition == size) {
 
-            System.out.println("Replaced");
+            //System.out.println("Replaced");
             tail = newNode;
             return true;
         }
@@ -317,7 +317,7 @@ public class CardDeck<T> implements ListInterface {
 
 //                newNode.setPrevious(currentNode.getPrevious());
 //                newNode.setNext(currentNode.getNext());
-                System.out.println("Replaced");
+                //System.out.println("Replaced");
                 currentNode.setData((T)newEntry);
 
                 return true;

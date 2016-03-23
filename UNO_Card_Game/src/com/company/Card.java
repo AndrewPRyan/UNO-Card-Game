@@ -13,13 +13,13 @@ public class Card {
 
     public enum CardNumber {
 
-        ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE;
+        ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, NONE;
 
     }
 
     public enum CardAction {
 
-        SKIP, REVERSE, DRAW_TWO, WILD, WILD_DRAW;
+        SKIP, REVERSE, DRAW_TWO, WILD, WILD_DRAW, NONE;
 
     }
 
@@ -32,6 +32,7 @@ public class Card {
 
         this.color = color;
         this.number = number;
+        this.action = CardAction.NONE;
         this.cardName = cardName;
 
     }
@@ -40,6 +41,7 @@ public class Card {
 
         this.color = color;
         this.action = action;
+        this.number = CardNumber.NONE;
         this.cardName = cardName;
 
     }

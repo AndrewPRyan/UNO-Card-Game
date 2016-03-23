@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Created by andrewryan on 3/9/16.
@@ -310,8 +311,8 @@ public class UNO {
 
     public boolean shuffleDeck() {
 
-        System.out.println("Inside of shuffleDeck()");
-        System.out.println("Draw Pile Size: " + drawPile.getLength());
+        //System.out.println("Inside of shuffleDeck()");
+        //System.out.println("Draw Pile Size: " + drawPile.getLength());
 
         try {
 
@@ -351,31 +352,61 @@ public class UNO {
 
     public boolean deal() {
 
-        int amountToDeal = players.size() * 7;
+        int amountToDeal = players.size() * 9;
         System.out.println("Amount of cards to deal: " + amountToDeal);
         int playerIndex = 0;
 
         try {
 
-
-            for (int i = 0; i <= amountToDeal - 1; i++) {
+            for (int i = 0; i <= amountToDeal; i++) {
 
                 if (playerIndex == players.size()) {
 
                     playerIndex = 0;
+//                    System.out.println("Player rotation reset");
 
                 }
 
+//                System.out.println("#" + i);
+
                 Player player = players.get(playerIndex);
                 System.out.println("To " + player.getName());
-                Card givenCard = (Card) drawPile.getEntry(1);
-                System.out.println("Card being given: " + givenCard.getName());
-                player.drawCard(drawPile.remove(1));
-                players.set(playerIndex, player);
+                if (drawPile.getEntry(1) == null) {
 
-                System.out.println("Card passed");
+                    drawPile.remove(1);
 
-                playerIndex++;
+                    Card givenCard = (Card) drawPile.getEntry(1);
+//                    System.out.println("Card being given: " + givenCard.getName());
+                    player.drawCard(drawPile.remove(1));
+                    players.set(playerIndex, player);
+
+                    System.out.println("Card passed");
+
+                    System.out.println();
+
+                    playerIndex++;
+
+                    Thread.sleep(500);
+
+
+                }
+
+                else {
+
+                    Card givenCard = (Card) drawPile.getEntry(1);
+//                    System.out.println("Card being given: " + givenCard.getName());
+                    player.drawCard(drawPile.remove(1));
+                    players.set(playerIndex, player);
+
+                    System.out.println("Card passed");
+
+                    System.out.println();
+
+                    playerIndex++;
+
+                    Thread.sleep(500);
+
+                }
 
             }
 
@@ -441,13 +472,52 @@ public class UNO {
 
         }
 
-        Card topCard = (Card) discardPile.getEntry(0);
+        Card topCard = (Card) discardPile.getEntry(1);
 
-        if (topCard.getColor().equals(card.getColor()) || topCard.getNumber().equals(card.getNumber()) || topCard.getAction().equals(card.getAction())) {
+        Card.CardColor topCardColor = topCard.getColor();
+
+        System.out.println(topCardColor);
+
+        Card.CardNumber topCardNumber = topCard.getNumber();
+
+        System.out.println(topCardNumber);
+
+        Card.CardAction topCardAction = topCard.getAction();
+
+        System.out.println(topCardAction);
+
+        if (topCardAction.equals(Card.CardAction.WILD) || topCardAction.equals(Card.CardAction.WILD_DRAW)) {
+
+            discardPile.add(card);
+
+            return true;
+
+        }
+
+        if (topCardColor.equals(card.getColor()) || topCardNumber.equals(card.getNumber()) || topCardAction.equals(card.getAction())) {
 
             try {
 
                 discardPile.add(card);
+
+                if (card.getAction().equals(Card.CardAction.SKIP)) {
+
+                    skip();
+
+                }
+
+                if (card.getAction().equals(Card.CardAction.REVERSE)) {
+
+                    reverse();
+
+                }
+
+                if (card.getAction().equals(Card.CardAction.DRAW_TWO)) {
+
+                    drawTwo();
+
+                }
+
                 return true;
 
             } catch (Exception e) {
@@ -461,6 +531,55 @@ public class UNO {
         else if (card.getAction().equals(Card.CardAction.WILD) || card.getAction().equals(Card.CardAction.WILD_DRAW)) {
 
             try {
+
+                Thread.sleep(1000);
+
+                System.out.println("\nWILD!");
+
+                Scanner keyboard = new Scanner(System.in);
+
+                System.out.println("Which color would you like to change to?");
+                System.out.println("Choices: RED, YELLOW, BLUE, GREEN\n");
+
+                String colorToChange = keyboard.nextLine();
+
+                if (colorToChange.equals("RED")) {
+
+                    gameStateColor = Card.CardColor.RED;
+
+                    System.out.println("Color has been changed to RED!\n");
+
+                }
+
+                else if (colorToChange.equals("YELLOW")) {
+
+                    gameStateColor = Card.CardColor.YELLOW;
+
+                    System.out.println("Color has been changed to YELLOW!\n");
+
+                }
+
+                else if (colorToChange.equals("BLUE")) {
+
+                    gameStateColor = Card.CardColor.BLUE;
+
+                    System.out.println("Color has been changed to BLUE!\n");
+
+                }
+
+                else if (colorToChange.equals("GREEN")) {
+
+                    gameStateColor = Card.CardColor.GREEN;
+
+                    System.out.println("Color has been changed to GREEN!\n");
+
+                }
+
+                else {
+
+                    System.out.println("Not a valid color, you lose the chance to change the color.\n");
+
+                }
 
                 discardPile.add(card);
                 return true;
